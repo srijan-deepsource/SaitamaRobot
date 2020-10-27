@@ -576,7 +576,7 @@ def fed_ban(update: Update, context: CallbackContext):
         if not str(user_id).isdigit():
             send_message(update.effective_message, excp.message)
             return
-        elif len(str(user_id)) != 9:
+        if len(str(user_id)) != 9:
             send_message(update.effective_message, "That's so not a user!")
             return
         isvalid = False
@@ -869,7 +869,7 @@ def unfban(update: Update, context: CallbackContext):
         if not str(user_id).isdigit():
             send_message(update.effective_message, excp.message)
             return
-        elif len(str(user_id)) != 9:
+        if len(str(user_id)) != 9:
             send_message(update.effective_message, "That's so not a user!")
             return
         isvalid = False
@@ -1198,9 +1198,8 @@ def fed_ban_list(update: Update, context: CallbackContext):
                         .format(waktu),
                         parse_mode=ParseMode.MARKDOWN)
                     return
-                else:
-                    if user.id not in DRAGONS:
-                        put_chat(chat.id, new_jam, chat_data)
+                if user.id not in DRAGONS:
+                    put_chat(chat.id, new_jam, chat_data)
             else:
                 if user.id not in DRAGONS:
                     put_chat(chat.id, new_jam, chat_data)
@@ -1224,7 +1223,7 @@ def fed_ban_list(update: Update, context: CallbackContext):
                     caption="Total {} User are blocked by the Federation {}."
                     .format(len(getfban), info['fname']))
             return
-        elif args[0] == 'csv':
+        if args[0] == 'csv':
             jam = time.time()
             new_jam = jam + 1800
             cek = get_chat(chat.id, chat_data)
@@ -1237,9 +1236,8 @@ def fed_ban_list(update: Update, context: CallbackContext):
                         .format(waktu),
                         parse_mode=ParseMode.MARKDOWN)
                     return
-                else:
-                    if user.id not in DRAGONS:
-                        put_chat(chat.id, new_jam, chat_data)
+                if user.id not in DRAGONS:
+                    put_chat(chat.id, new_jam, chat_data)
             else:
                 if user.id not in DRAGONS:
                     put_chat(chat.id, new_jam, chat_data)
@@ -1291,9 +1289,8 @@ def fed_ban_list(update: Update, context: CallbackContext):
                     .format(waktu),
                     parse_mode=ParseMode.MARKDOWN)
                 return
-            else:
-                if user.id not in DRAGONS:
-                    put_chat(chat.id, new_jam, chat_data)
+            if user.id not in DRAGONS:
+                put_chat(chat.id, new_jam, chat_data)
         else:
             if user.id not in DRAGONS:
                 put_chat(chat.id, new_jam, chat_data)
@@ -1437,9 +1434,8 @@ def fed_import_bans(update: Update, context: CallbackContext):
                     .format(waktu),
                     parse_mode=ParseMode.MARKDOWN)
                 return
-            else:
-                if user.id not in DRAGONS:
-                    put_chat(chat.id, new_jam, chat_data)
+            if user.id not in DRAGONS:
+                put_chat(chat.id, new_jam, chat_data)
         else:
             if user.id not in DRAGONS:
                 put_chat(chat.id, new_jam, chat_data)
@@ -1686,12 +1682,11 @@ def fed_stat_user(update: Update, context: CallbackContext):
                 update.effective_message,
                 "{} is not banned in any federation!".format(user_name))
             return
-        else:
-            teks = "{} has been banned in this federation:\n".format(user_name)
-            for x in fbanlist:
-                teks += "- `{}`: {}\n".format(x[0], x[1][:20])
-            teks += "\nIf you want to find out more about the reasons for Fedban specifically, use /fbanstat <FedID>"
-            send_message(update.effective_message, teks, parse_mode="markdown")
+        teks = "{} has been banned in this federation:\n".format(user_name)
+        for x in fbanlist:
+            teks += "- `{}`: {}\n".format(x[0], x[1][:20])
+        teks += "\nIf you want to find out more about the reasons for Fedban specifically, use /fbanstat <FedID>"
+        send_message(update.effective_message, teks, parse_mode="markdown")
 
     elif not msg.reply_to_message and not args:
         user_id = msg.from_user.id
@@ -1952,13 +1947,12 @@ def get_myfedsubs(update: Update, context: CallbackContext):
                 fedinfo['fname']),
             parse_mode="markdown")
         return
-    else:
-        listfed = "Federation `{}` is subscribing federation:\n".format(
-            fedinfo['fname'])
-        for x in getmy:
-            listfed += "- `{}`\n".format(x)
-        listfed += "\nTo get fed info `/fedinfo <fedid>`. To unsubscribe `/unsubfed <fedid>`."
-        send_message(update.effective_message, listfed, parse_mode="markdown")
+    listfed = "Federation `{}` is subscribing federation:\n".format(
+        fedinfo['fname'])
+    for x in getmy:
+        listfed += "- `{}`\n".format(x)
+    listfed += "\nTo get fed info `/fedinfo <fedid>`. To unsubscribe `/unsubfed <fedid>`."
+    send_message(update.effective_message, listfed, parse_mode="markdown")
 
 
 @run_async
@@ -1983,8 +1977,7 @@ def is_user_fed_admin(fed_id, user_id):
         return False
     if int(user_id) in fed_admins or int(user_id) == OWNER_ID:
         return True
-    else:
-        return False
+    return False
 
 
 def is_user_fed_owner(fed_id, user_id):
@@ -1997,8 +1990,7 @@ def is_user_fed_owner(fed_id, user_id):
     getfedowner = getfedowner['owner']
     if str(user_id) == getfedowner or int(user_id) == OWNER_ID:
         return True
-    else:
-        return False
+    return False
 
 
 # There's no handler for this yet, but updating for v12 in case its used
@@ -2014,8 +2006,7 @@ def welcome_fed(update: Update, context: CallbackContext):
             "This user is banned in current federation! I will remove him.")
         bot.kick_chat_member(chat.id, user.id)
         return True
-    else:
-        return False
+    return False
 
 
 def __stats__():
